@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Home</title>
+        <meta name="description" content>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.2/dist/full.css"
+            rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://unpkg.com/htmx.org@1.9.6"
+            integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni"
+            crossorigin="anonymous"></script>
+
+    </head>
+    <body class="bg-gray-300">
+        <div
+            style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+            <div
+                class="card w-100 h-200 bg-primary text-primary-content bg-gradient-to-r from-red-500 to-pink-500 p-4">
+                <div class="card-body justify-center">
+                    <div class="card-actions">
+                        <form class="rounded px-8"
+                            hx-post="/set"
+                            hx-target="#number"
+                            hx-swap="outerHTML">
+                            <div class="flex items-center">
+                                <!-- Wrap input and button in a flex container -->
+                                <div class="flex">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor"
+                                        class="w-6 h-6">
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <label>(s)</label>
+                                </div>
+                                <input
+                                    class="shadow appearance-none rounded w-full py-2 px-3 mx-2 text-white text-center leading-tight focus:outline-none focus:shadow-outline"
+                                    id="duration-input" type="text"
+                                    placeholder="Enter duration"
+                                    name="duration">
+                                <button class="btn btn-default px-4">OK</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mx-auto p-10">
+                        <h2 class="card-title text-6xl" id="number">{{duration}}</h2>
+                    </div>
+                    <div class="card-actions justify-center">
+                        <button class="btn"
+                            hx-get="/reset"
+                            hx-trigger="click"
+                            hx-target="#number"
+                            hx-swap="outerHTML">
+                            Reset
+                        </button>
+                        <button class="btn"
+                            hx-get="/pause"
+                            hx-trigger="click"
+                            hx-target="#number"
+                            hx-swap="outerHTML">
+                            Pause
+                        </button>
+                        <button class="btn"
+                            hx-get="/stop"
+                            hx-trigger="click"
+                            hx-target="#number"
+                            hx-swap="outerHTML">
+                            Stop
+                        </button>
+                        <button class="btn"
+                            hx-get="/start"
+                            hx-trigger="click"
+                            hx-target="#number"
+                            hx-swap="outerHTML">
+                            Start
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src async defer>
+            // start polling
+            function startpolling(){
+                var myPoller= setInterval(function () {  htmx.trigger("startBtn","myEvent"); }, 300);
+                }
+                
+                // stop polling
+                document.body.addEventListener("stopPolling", function(evt){
+                    clearInterval(myPoller);
+                })
+        </script>
+    </body>
+</html>
